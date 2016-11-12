@@ -7,7 +7,9 @@ import pyowm
 API_KEY = 'f758480110064748fcea0d1f2063bbb3'
 owm = pyowm.OWM(API_KEY)
 
-observation = owm.weather_at_place('San Francisco, CA, US')
+observation = owm.weather_at_place('Campbell, CA, US')
+#observation = owm.weather_at_place('Tehran, Iran')
+
 #observation = owm.weather_at_coords(36.6002, 121.8947)
 
 
@@ -33,9 +35,9 @@ class WeatherClass():
 
 #-----------------------_Testing_----------------------------
         #print(self.currentWeather)
-        print('Todays Forecast: ' + self.todaysForecast)
-        print('Current Weather: ' + self.currentWeather)
-        print('Current Temperature: ' + self.currentTemperature + ' degrees fahrenheit')
+        #print('Todays Forecast: ' + self.todaysForecast)
+        #print('Current Weather: ' + self.currentWeather)
+        #print('Current Temperature: ' + self.currentTemperature + ' degrees fahrenheit')
     #currentWeather = getWeather()
 #Weather.getWeather()
 #-----------------------_Testing_----------------------------

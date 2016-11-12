@@ -10,6 +10,8 @@ except:
     #python2
     from Tkinter import *
 
+time1 = time.localtime(time.time())
+
 class Application(Frame):
 
     def createTime(self):
@@ -17,17 +19,17 @@ class Application(Frame):
         self.Time.pack(side='right')
 
     def createCal(self):
-        self.Cal = Text(self.bottom_right,height=8,width=0,background='gray')
+        self.Cal = Text(self.bottom_right,height=8,width=0,background='black', fg = 'white')
         self.Cal.insert(INSERT, calendar.month(self.localtime[0], self.localtime[1]))
-        self.Cal.pack(side='right',fill='both',expand=True)
+        self.Cal.pack(side='left',fill='both',expand=True)
 
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.localtime = time.localtime(time.time())
 
-        self.main_container = Frame(master, background='bisque')
+        self.main_container = Frame(master, background='black')
         self.main_container.pack(side='top',fill='both',expand=True)
-        master.minsize(width=800,height=800)
+        master.minsize(width=800,height=300)
 
         self.top_frame = Frame(self.main_container,background='green')
         self.top_frame.pack(side='top',fill='x',expand=False)
@@ -67,12 +69,13 @@ root.title('Smart Mirror')
 app = Application(root)
 
 #Display live time
-def tick(app):
+def tick():
+    global time1
     time2 = time.localtime(time.time())
-    if time2 != app.localtime:
-        app.localtime = time2
-        app.Time.config(text=time.asctime(app.localtime))
-    app.Time.after(200,tick(app))
+    if time2 != time1:
+        time1 = time2
+        app.Time.config(text=time.asctime(time1))
+    app.Time.after(200, tick)
 
 #Display current weather from weather.py
 def getWeatherIcon(app):
@@ -82,7 +85,11 @@ def getWeatherIcon(app):
     if "clouds" in currentWeatherStatus:
         weatherImage = PhotoImage(file="Cloudy.png")
     if "clear" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="ClearSkyDay.png")#Need to get time to change between clearnight/ clearday
+        #print(time1.tm_hour)#Testing
+        if(time1.tm_hour > 6) and (time1.tm_hour <18):#Between 6am and 6pm will be day
+            weatherImage = PhotoImage(file="ClearSkyDay.png")
+        else:
+            weatherImage = PhotoImage(file="ClearSkyNight.png")
     if "sunny" in currentWeatherStatus:
         weatherImage = PhotoImage(file="ClearSkyDay.png")
     if "rain" in currentWeatherStatus:
@@ -104,7 +111,7 @@ weatherImage = getWeatherIcon(app)#Get appropriate weather image from our displa
 weatherInfo = str(WeatherClass().currentWeather) + '\n' + str(WeatherClass().currentTemperature + 'F')#Get description of weather/ temperature
 
 #Draw the results
-labelfont = ('times', 20, 'bold')
+labelfont = ('Courier', 20, 'bold')
 imageWidget = Label(root, image=weatherImage).pack(side="right")
 
 #textWidget = Label(root,
@@ -115,10 +122,10 @@ imageWidget = Label(root, image=weatherImage).pack(side="right")
 textWidget = Label(root, text = weatherInfo)
 textWidget.config(bg='black', fg='white')
 textWidget.config(font=labelfont)
-textWidget.config(height=3, width=20)
+textWidget.config(height=3, width=14)
 textWidget.pack(expand=NO, fill=BOTH, side='right')
 
-#tick(app)#Currently broken
+tick()#Currently broken
 #threading.Timer(5, test).start()
 
 app.mainloop()
