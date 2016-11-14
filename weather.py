@@ -4,7 +4,7 @@
 
 import pyowm
 
-API_KEY = 'f758480110064748fcea0d1f2063bbb3'
+API_KEY = 'your_key_here'
 owm = pyowm.OWM(API_KEY)
 
 observation = owm.weather_at_place('Campbell, CA, US')
@@ -30,8 +30,6 @@ class WeatherClass():
         self.todaysForecast = str(self.todaysForecast)
         self.currentWeather = str(currentConditions)
         self.currentTemperature = str(self.currentTemperature)
-
-
 
 #-----------------------_Testing_----------------------------
         #print(self.currentWeather)

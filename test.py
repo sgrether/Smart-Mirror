@@ -15,7 +15,7 @@ time1 = time.localtime(time.time())
 class Application(Frame):
 
     def createTime(self):
-        self.Time = Label(self.top_right, text=time.asctime(self.localtime))
+        self.Time = Label(self.top_right, text=time.asctime(self.localtime), background='black', fg = 'white')
         self.Time.pack(side='right')
 
     def createCal(self):
@@ -114,18 +114,14 @@ weatherInfo = str(WeatherClass().currentWeather) + '\n' + str(WeatherClass().cur
 labelfont = ('Courier', 20, 'bold')
 imageWidget = Label(root, image=weatherImage).pack(side="right")
 
-#textWidget = Label(root,
-#justify=LEFT,
-#padx = 10,
-#text=weatherInfo).pack(side="right")
-
 textWidget = Label(root, text = weatherInfo)
 textWidget.config(bg='black', fg='white')
 textWidget.config(font=labelfont)
 textWidget.config(height=3, width=14)
 textWidget.pack(expand=NO, fill=BOTH, side='right')
 
-tick()#Currently broken
-#threading.Timer(5, test).start()
+tick()
+#getWeatherIcon(app)#Test
+#threading.Timer(5, getWeatherIcon(app)).start()
 
 app.mainloop()
