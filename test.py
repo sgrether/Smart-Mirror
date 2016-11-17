@@ -1,6 +1,6 @@
 import time
 import calendar
-#import threading
+import threading
 from weather import WeatherClass
 
 try:
@@ -17,11 +17,15 @@ class Application(Frame):
     def createTime(self):
         self.Time = Label(self.top_right, text=time.asctime(self.localtime), background='black', fg = 'white')
         self.Time.pack(side='right')
+        self.Time.config(borderwidth=0)
+        self.Time.config(highlightthickness=0)
 
     def createCal(self):
         self.Cal = Text(self.bottom_right,height=8,width=0,background='black', fg = 'white')
         self.Cal.insert(INSERT, calendar.month(self.localtime[0], self.localtime[1]))
         self.Cal.pack(side='left',fill='both',expand=True)
+        self.Cal.config(borderwidth=0)
+        self.Cal.config(highlightthickness=0)
 
     def __init__(self, master=None):
         Frame.__init__(self, master)
@@ -29,7 +33,7 @@ class Application(Frame):
 
         self.main_container = Frame(master, background='black')
         self.main_container.pack(side='top',fill='both',expand=True)
-        master.minsize(width=800,height=300)
+        master.minsize(width=1000,height=300)
 
         self.top_frame = Frame(self.main_container,background='green')
         self.top_frame.pack(side='top',fill='x',expand=False)
@@ -55,12 +59,6 @@ class Application(Frame):
         self.top_left_label = Label(self.top_left, text="Top Left")
         self.top_left_label.pack(side="left")
 
-        #self.top_right_label = Label(self.top_right, text="Top Right")
-        #self.top_right_label.pack(side="right")
-
-        #self.bottom_right_label = Label(self.bottom_right,text='Bottom Right')
-        #self.bottom_right_label.pack(side='right')
-
         self.bottom_left_label = Label(self.bottom_left,text='Bottom Left')
         self.bottom_left_label.pack(side='left')
 
@@ -77,51 +75,36 @@ def tick():
         app.Time.config(text=time.asctime(time1))
     app.Time.after(200, tick)
 
-#Display current weather from weather.py
-def getWeatherIcon(app):
-    weatherClassObject = WeatherClass()#Create object of our WeatherClass()
-    currentWeatherStatus = weatherClassObject.currentWeather#Reference current weather from our object
 
-    if "clouds" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="Cloudy.png")
-    if "clear" in currentWeatherStatus:
-        #print(time1.tm_hour)#Testing
-        if(time1.tm_hour > 6) and (time1.tm_hour <18):#Between 6am and 6pm will be day
-            weatherImage = PhotoImage(file="ClearSkyDay.png")
-        else:
-            weatherImage = PhotoImage(file="ClearSkyNight.png")
-    if "sunny" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="ClearSkyDay.png")
-    if "rain" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="Rain.png")
-    if "thunder" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="Thunder.png")
-    if "snow" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="Snow.png")
-    if "haze" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="Foggy.png")
-    if "fog" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="Foggy.png")
-    if "mist" in currentWeatherStatus:
-        weatherImage = PhotoImage(file="Foggy.png")
-    #print('Doing stuff..')#Testing
-    return weatherImage
-
-weatherImage = getWeatherIcon(app)#Get appropriate weather image from our displayWeather function
-weatherInfo = str(WeatherClass().currentWeather) + '\n' + str(WeatherClass().currentTemperature + 'F')#Get description of weather/ temperature
-
-#Draw the results
+'''Draw weather results'''
+weatherClassObject = WeatherClass()#Create object of our WeatherClass()
+#initialize the weather widgets
+imageWidget = Label(root)
 labelfont = ('Courier', 20, 'bold')
-imageWidget = Label(root, image=weatherImage).pack(side="right")
 
-textWidget = Label(root, text = weatherInfo)
+imageWidget.pack(side="right")
+imageWidget.config(borderwidth=0)
+imageWidget.config(highlightthickness=0)
+
+textWidget = Label(root)
 textWidget.config(bg='black', fg='white')
 textWidget.config(font=labelfont)
-textWidget.config(height=3, width=14)
+textWidget.config(borderwidth=0)
+textWidget.config(highlightthickness=0)
+textWidget.config(height=3, width=16)
 textWidget.pack(expand=NO, fill=BOTH, side='right')
 
+def draw_Weather():
+    weatherImage = weatherClassObject.weatherImage
+    weatherInfo = str(weatherClassObject.currentWeather) + '\n' + str(weatherClassObject.currentTemperature + 'F')#Get description of weather/ temperature
+    imageWidget.config(image=weatherImage) #update image
+
+    textWidget.config(text = weatherInfo) #update text
+
+    print('Updating..')#Testing
+    threading.Timer(400, draw_Weather).start()#Updates every x seconds
+
 tick()
-#getWeatherIcon(app)#Test
-#threading.Timer(5, getWeatherIcon(app)).start()
+draw_Weather()
 
 app.mainloop()
