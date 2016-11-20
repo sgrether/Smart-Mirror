@@ -62,18 +62,19 @@ class WeatherClass():
         if "mist" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Foggy.png")
 
+    #Trying to get updated weather status
     def update_Weather(self):
         weather2 = observation.get_weather()
 
         '''Get Current Weather Conditions'''
         currentConditions2 = weather2.get_detailed_status()
         self.currentWeather2 = str(currentConditions2)
-        print(self.currentWeather2)
+        print(self.currentWeather2)#Testing
 
         '''Get Current Temperature in Fahrenheit'''
         self.currentTemperature2 = weather2.get_temperature(unit = 'fahrenheit')
         self.currentTemperature2 = str(self.currentTemperature2).split("'temp':", 1)[1]#Get temperature, removing everything before it
         self.currentTemperature2 = self.currentTemperature2[:3]#Remove everything except for the 2 digits we need
         self.currentTemperature2 = str(self.currentTemperature2)
-        print(self.currentTemperature2)
+        print(self.currentTemperature2)#Testing
 #threading.Timer(5, __init__(self).start()
