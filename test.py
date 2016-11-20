@@ -35,7 +35,7 @@ class Application(Frame):
         self.main_container.pack(side='top',fill='both',expand=True)
         master.minsize(width=1000,height=300)
 
-        self.top_frame = Frame(self.main_container,background='green')
+        self.top_frame = Frame(self.main_container,background='black')
         self.top_frame.pack(side='top',fill='x',expand=False)
 
         self.bottom_frame = Frame(self.main_container,background='yellow')
@@ -76,12 +76,11 @@ def tick():
     app.Time.after(200, tick)
 
 
-'''Draw weather results'''
+'''Initialize the weather widgets'''
 weatherClassObject = WeatherClass()#Create object of our WeatherClass()
-#initialize the weather widgets
-imageWidget = Label(root)
 labelfont = ('Courier', 20, 'bold')
 
+imageWidget = Label(root)
 imageWidget.pack(side="right")
 imageWidget.config(borderwidth=0)
 imageWidget.config(highlightthickness=0)
@@ -89,22 +88,24 @@ imageWidget.config(highlightthickness=0)
 textWidget = Label(root)
 textWidget.config(bg='black', fg='white')
 textWidget.config(font=labelfont)
-textWidget.config(borderwidth=0)
-textWidget.config(highlightthickness=0)
+textWidget.config(borderwidth=0)#Get rid of 1px border
+textWidget.config(highlightthickness=0)#Get rid of 1px border
 textWidget.config(height=3, width=16)
 textWidget.pack(expand=NO, fill=BOTH, side='right')
 
+'''Draw weather status/icon'''
 def draw_Weather():
     weatherImage = weatherClassObject.weatherImage
     weatherInfo = str(weatherClassObject.currentWeather) + '\n' + str(weatherClassObject.currentTemperature + 'F')#Get description of weather/ temperature
-    imageWidget.config(image=weatherImage) #update image
 
+    imageWidget.config(image=weatherImage) #update image
     textWidget.config(text = weatherInfo) #update text
 
     print('Updating..')#Testing
-    threading.Timer(400, draw_Weather).start()#Updates every x seconds
+    weatherClassObject.update_Weather()#Testing
+    threading.Timer(300, draw_Weather).start()#Updates every x seconds
 
 tick()
-draw_Weather()
+draw_Weather()#Initial call to get draw_Weather going
 
 app.mainloop()
