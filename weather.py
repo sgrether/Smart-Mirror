@@ -12,7 +12,7 @@ except:
     #python2
     from Tkinter import *
 
-API_KEY = 'YOUR API KEY HERE'
+API_KEY = 'f758480110064748fcea0d1f2063bbb3'
 time1 = time.localtime(time.time())
 
 class WeatherClass():

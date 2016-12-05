@@ -5,6 +5,7 @@
 import time
 import calendar
 from weather import WeatherClass
+import distance
 
 try:
     #python3
@@ -14,7 +15,10 @@ except:
     from Tkinter import *
 
 time1 = time.localtime(time.time())
+#durations = getDist()
+distance = distance.dist()
 
+'''Widget class'''
 class Application(Frame):
 
     def createTime(self):#Create Time widget
@@ -24,7 +28,7 @@ class Application(Frame):
         self.Time.config(highlightthickness=0)
 
     def createCal(self):#Create calendar widget
-        self.Cal = Text(self.bottom_left,height=7,width=0,background='black', fg='white')
+        self.Cal = Text(self.bottom_left,height=7,width=0,background='black', fg='white', font=('Courier', 14, 'bold'))
         self.Cal.insert(INSERT, calendar.month(time1[0], time1[1]))
         self.Cal.pack(side='left',fill='both',expand=True)
         self.Cal.config(borderwidth=0)
@@ -38,11 +42,16 @@ class Application(Frame):
 
     def createText(self):#Create weather text widget
         self.textWidget = Label(self.bottom_right, fg='white', background='black', font=self.labelfont)
-        self.textWidget.config(bg='black', fg='white')
+        #self.textWidget.config(bg='black', fg='white')
         self.textWidget.config(borderwidth=0)#Get rid of 1px border
         self.textWidget.config(highlightthickness=0)#Get rid of 1px border
         self.textWidget.config(height=3, width=20)
         self.textWidget.pack(expand=NO, fill=BOTH, side='right')
+
+    def createDist(self):
+        self.distWidget = Label(self.top_left, fg='white', background='black', font=('Courier', 14, 'bold'))
+        self.distWidget.config(text=distance)
+        self.distWidget.pack(side='left')
 
     def __init__(self, master=None):
         Frame.__init__(self, master)
@@ -51,7 +60,7 @@ class Application(Frame):
 
         self.main_container = Frame(master, background='black')
         self.main_container.pack(side='top',fill='both',expand=True)
-        master.minsize(width=1000,height=500)#Set window size
+        master.minsize(width=1000,height=300)#Set window size
 
         self.top_frame = Frame(self.main_container, background='black')
         self.top_frame.pack(side='top',fill='x',expand=False)
@@ -76,20 +85,9 @@ class Application(Frame):
         self.createCal()
         self.createImage()
         self.createText()
+        self.createDist()
 
-        self.top_left_label = Label(self.top_left, text="Top Left", fg='white', background='black')
-        self.top_left_label.pack(side="left")
-
-        #self.top_right_label = Label(self.top_right, text="Top Right")
-        #self.top_right_label.pack(side="right")
-
-        #self.bottom_right_label = Label(self.bottom_right,text='Bottom Right', fg='white', background='black')
-        #self.bottom_right_label.pack(side='right')
-
-        #self.bottom_left_label = Label(self.bottom_left,text='Bottom Left')
-        #self.bottom_left_label.pack(side='left')
-
-#Display live time
+'''Display live time'''
 def tick():
     global time1
     time2 = time.localtime(time.time())
@@ -109,11 +107,7 @@ def draw_Weather():
     app.imageWidget.config(image = weatherImage) #update image
     app.textWidget.config(text = weatherInfo) #update text
 
-    #print('Updating..')#Testing
-    #print(weatherClassObject.currentWeather)#Testing
-    #print(weatherClassObject.currentTemperature)#Testing
     app.imageWidget.after(30000, draw_Weather)#update every x milliseconds
-    #return weatherClassObject
 
 root = Tk()
 root.title('Smart Mirror')
