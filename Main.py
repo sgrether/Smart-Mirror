@@ -50,7 +50,7 @@ class Application(Frame):
 
     def createDist(self):
         self.distWidget = Label(self.top_left, fg='white', background='black', font=('Courier', 14, 'bold'))
-        self.distWidget.config(text=distance)
+        self.distWidget.config(text=distance[0])
         self.distWidget.pack(side='left')
 
     def __init__(self, master=None):
