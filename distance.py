@@ -15,6 +15,6 @@ def dist():
     items = google_maps.distance(origin, destination).all()
 
     for item in items:
-        duration.append('Travel Time: %s' % item.duration)
+        duration.append('Start: ' + origin[0] + '\n' + 'Destination: ' + destination[0] + '\n' + 'Travel time: %s' % item.duration)
 
     return duration

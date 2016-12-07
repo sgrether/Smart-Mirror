@@ -79,7 +79,7 @@ class Application(Frame):
         self.bottom_left = Frame(self.bottom_frame, background='black')
         self.bottom_left.pack(side='left',fill='x',expand=True)
 
-        #Create all thew widgets
+        #Create all the widgets
         self.createTime()
         self.createCal()
         self.createImage()
@@ -108,6 +108,7 @@ def draw_Weather():
 
     app.imageWidget.after(30000, draw_Weather)#update every x milliseconds
 
+'''Update the travel time every 30 minutes'''
 def updateTravel():
     global tTime
     newDist = distance.dist()
@@ -120,4 +121,5 @@ app = Application(root)
 tick()#Initial call for clock ticking
 draw_Weather()#Initial call to get draw_Weather going
 updateTravel()#Initial call to update travel time
+root.overrideredirect(1)
 root.mainloop()
