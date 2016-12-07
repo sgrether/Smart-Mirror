@@ -15,7 +15,6 @@ except:
     from Tkinter import *
 
 time1 = time.localtime(time.time())
-#durations = getDist()
 distance = distance.dist()
 
 '''Widget class'''
@@ -108,6 +107,11 @@ def draw_Weather():
     app.textWidget.config(text = weatherInfo) #update text
 
     app.imageWidget.after(30000, draw_Weather)#update every x milliseconds
+
+def updateTravel():
+    newDist = distance.getDist()
+    distWidget.config(text=newDist)
+    distWidget.after(1800000, updateTravel)
 
 root = Tk()
 root.title('Smart Mirror')
