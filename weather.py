@@ -1,6 +1,6 @@
 #Author: Dustin Grady
 #Function: Access weather data from Open Weather Maps
-#Status: Working/ Tested
+#Status: Working/Tested
 
 import pyowm
 import time

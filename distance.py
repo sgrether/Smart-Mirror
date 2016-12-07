@@ -1,3 +1,7 @@
+#Author: Michael Royal
+#Function: Access Google Maps for traffic information
+#Status: Working/Tested
+
 from geolocation.main import GoogleMaps
 from geolocation.distance_matrix.client import DistanceMatrixApiClient
 
