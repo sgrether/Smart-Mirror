@@ -1,6 +1,7 @@
 #Author: Scott Grether, Dustin Grady
 #Function: Create GUI with TKinter and set up widgets. Clock and weather that updates
-#Status: Working/ Tested
+#Github: https://github.com/sgrether/Smart-Mirror
+#Status: Working/Tested
 
 import time
 import calendar
@@ -15,7 +16,7 @@ except:
     from Tkinter import *
 
 time1 = time.localtime(time.time())
-distance = distance.dist()
+tTime = distance.dist()
 
 '''Widget class'''
 class Application(Frame):
@@ -48,8 +49,8 @@ class Application(Frame):
         self.textWidget.pack(expand=NO, fill=BOTH, side='right')
 
     def createDist(self):
-        self.distWidget = Label(self.top_left, fg='white', background='black', font=('Courier', 14, 'bold'))
-        self.distWidget.config(text=distance[0])
+        self.distWidget = Label(self.top_left, fg='white', background='black', justify='left', font=('Courier', 14, 'bold'))
+        self.distWidget.config(text=tTime[0])
         self.distWidget.pack(side='left')
 
     def __init__(self, master=None):
@@ -79,7 +80,7 @@ class Application(Frame):
         self.bottom_left = Frame(self.bottom_frame, background='black')
         self.bottom_left.pack(side='left',fill='x',expand=True)
 
-        #Create all thew widgets
+        #Create all the widgets
         self.createTime()
         self.createCal()
         self.createImage()
@@ -101,21 +102,25 @@ def draw_Weather():
     weatherClassObject = WeatherClass()
 
     weatherImage = weatherClassObject.weatherImage
-    weatherInfo = weatherClassObject.location.replace(", USA", "") + '\n' + str(weatherClassObject.currentWeather) + '\n' + str(weatherClassObject.currentTemperature + 'F')#Get description of weather/ temperature
+    weatherInfo = weatherClassObject.location.replace(', USA', '') + '\n' + str(weatherClassObject.currentWeather) + '\n' + str(weatherClassObject.currentTemperature + 'F')#Get description of weather/ temperature
 
     app.imageWidget.config(image = weatherImage) #update image
     app.textWidget.config(text = weatherInfo) #update text
 
-    app.imageWidget.after(30000, draw_Weather)#update every x milliseconds
+    app.imageWidget.after(450000, draw_Weather)#update every x milliseconds
 
+'''Update the travel time every 30 minutes'''
 def updateTravel():
-    newDist = distance.getDist()
-    distWidget.config(text=newDist)
-    distWidget.after(1800000, updateTravel)
+    global tTime
+    newDist = distance.dist()
+    app.distWidget.config(text=newDist[0])
+    app.distWidget.after(450000, updateTravel)
 
 root = Tk()
 root.title('Smart Mirror')
 app = Application(root)
 tick()#Initial call for clock ticking
 draw_Weather()#Initial call to get draw_Weather going
+updateTravel()#Initial call to update travel time
+#root.overrideredirect(1)
 root.mainloop()

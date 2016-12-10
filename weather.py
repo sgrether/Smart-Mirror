@@ -1,6 +1,7 @@
 #Author: Dustin Grady
 #Function: Access weather data from Open Weather Maps
-#Status: Working/ Tested
+#Github: https://github.com/sgrether/Smart-Mirror
+#Status: Working/Tested
 
 import pyowm
 import time
@@ -23,7 +24,7 @@ class WeatherClass():
         weather = observation.get_weather()
 
         '''Get Current Weather Conditions'''
-        self.currentWeather = str(weather.get_detailed_status().title())
+        self.currentWeather = str(weather.get_detailed_status())
 
         '''Get Current Temperature in Fahrenheit'''
         self.currentTemperature = weather.get_temperature(unit = 'fahrenheit')
@@ -31,26 +32,24 @@ class WeatherClass():
         self.currentTemperature = str(self.currentTemperature[:3])#Remove everything except for the 2 digits we need
 
         '''Determine Weather Icon'''
-        if "Clouds" in self.currentWeather:
+        if "clouds" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Cloudy.png")
-        if "Clear" in self.currentWeather:
+        if "clear" in self.currentWeather:
             if(time1.tm_hour > 6) and (time1.tm_hour <18):#Between 6am and 6pm will be day
                 self.weatherImage = PhotoImage(file="ClearSkyDay.png")
             else:
                 self.weatherImage = PhotoImage(file="ClearSkyNight.png")
-        if "Sunny" in self.currentWeather:
+        if "sunny" in self.currentWeather:
             self.weatherImage = PhotoImage(file="ClearSkyDay.png")
-        if "Rain" in self.currentWeather:
+        if "rain" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Rain.png")
-        if "Drizzle" in self.currentWeather:
-            self.weatherImage = PhotoImage(file="Rain.png")
-        if "Thunder" in self.currentWeather:
+        if "thunder" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Thunder.png")
-        if "Snow" in self.currentWeather:
+        if "snow" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Snow.png")
-        if "Haze" in self.currentWeather:
+        if "haze" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Foggy.png")
-        if "Fog" in self.currentWeather:
+        if "fog" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Foggy.png")
-        if "Mist" in self.currentWeather:
+        if "mist" in self.currentWeather:
             self.weatherImage = PhotoImage(file="Foggy.png")

@@ -1,9 +1,14 @@
+#Author: Michael Royal
+#Function: Access Google Maps for traffic information
+#Github: https://github.com/sgrether/Smart-Mirror
+#Status: Working/Tested
+
 from geolocation.main import GoogleMaps
 from geolocation.distance_matrix.client import DistanceMatrixApiClient
 
 def dist():
     origin = ['Santa Cruz']
-    destination = ['Seaside']
+    destination = ['Lake Tahoe']
     duration = []
 
     google_maps = GoogleMaps(api_key='AIzaSyBTfMBsYy9fFaJ-XVhoHIz-VnKiN2DZGpg')
