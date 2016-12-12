@@ -1,3 +1,7 @@
+#Abstract: Map.py  uses tkinter to display an image of the Map of Seaside downloaded from
+#Open Street Maps.
+#Author: Michael Royal
+#Date:12/11/16
 from Tkinter import *
 from PIL import ImageTk, Image
 import os
